@@ -19,7 +19,7 @@ Sqlite
 ### Users
 	POST	/users/login – user login 
 	POST	/users/register – user register
-	GET		/users/logout – user logout
+	GET	/users/logout – user logout
 	PUT 	/users/<id> – user edit/update profile
 	DELETE  /users/<id> - delete user profile
 
@@ -30,9 +30,9 @@ Sqlite
 	DELETE	/stocks/<id> – delete stock
 
 ### Screens
-	GET	 	/myscreens – shows user screens
+	GET /myscreens – shows user screens
 	POST	/screens – create screen
-	PUT		/screens/<id> - edit/update screen
+	PUT /screens/<id> - edit/update screen
 	DELETE	/screens/<id> - delete screen
 
 
@@ -41,7 +41,7 @@ Sqlite
 	email = CharField(unique=True)
 	username = CharField(unique=True)
 	password = CharField()
-	profile_pic = TextField()?
+	profile_pic = TextField()
 	bio = TextField()
 
 ### Stock
