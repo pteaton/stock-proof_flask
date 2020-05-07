@@ -30,9 +30,9 @@ Sqlite
 	DELETE	/stocks/<id> – delete stock
 
 ### Screens
-	GET /myscreens – shows user screens
+	GET 	/myscreens – shows user screens
 	POST	/screens – create screen
-	PUT /screens/<id> - edit/update screen
+	PUT 	/screens/<id> - edit/update screen
 	DELETE	/screens/<id> - delete screen
 
 
