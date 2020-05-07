@@ -50,7 +50,6 @@ CORS, Postgress SQL, Python-Flask, React & Sqlite
 	operating_efficiency = IntegerField() – Return on Assets = net income/assets
 	creator = ForeignKeyField(User, backref=’stocks’) – cites the author of the stock
 	date_posted = date(default=date.time.datetime.now) – time stock posted
-	f_score = IntegerField()?
 
 ## Piotroski F-Score Screen:  
 Used to determines value of stock
