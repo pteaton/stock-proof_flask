@@ -22,22 +22,23 @@ Sqlite
 	POST	/users/login – user login 
 	POST	/users/register – user register
 	GET	/users/logout – user logout
-	/users/edit – user edit/delete profile
+	PUT /users/<id> – user edit/update profile
+	DELETE /users/<id> - delete user profile
 
 ### Stocks
 	GET	/mystocks – shows stocks
 	POST	/stocks - create stock
 	PUT	/stocks/<id> – edit/update stock 
-	DELETE		/stocks/<id> – delete stock
+	DELETE	/stocks/<id> – delete stock
 
 ### Screens
 	GET	 /myscreens – shows user screens
 	POST	/screens – create screen
 	PUT	/screens/<id> - edit/update screen
-	DELETE		/screens/<id> - delete screen
+	DELETE	/screens/<id> - delete screen
 
 
-# MODELS
+# Models 
 ### User
 	email = CharField(unique=True)
 	username = CharField(unique=True)
@@ -47,14 +48,23 @@ Sqlite
 
 ### Stock
 	bad_management = CharField() – stable management,  low turnover mid/high positions
+	
 	balance_sheet = CharField() – assets, liabilities, net worth calculation	
+	
 	enterprise_life_cycle = TextField() – development, reinvestment for success	
+	
 	economic_moat = TextField() – competitive advantages	
+	
 	dividend_paying_stock = CharField() – business compounds wealth over time	
+	
 	earnings_stability = CharField() –  yes/no -- lowers chance of forecasting errors and risk	
+	
 	operating_efficiency = IntegerField() – Return on Assets = net income/assets
+	
 	creator = ForeignKeyField(User, backref=’stocks’) – cites the author of the stock
+	
 	date_posted = date(default=date.time.datetime.now) – time stock posted
+	
 	screen_result = IntegerField() – should this be included?
 
 
@@ -76,4 +86,11 @@ Sqlite
 ### OperatingEfficiency: (2 points)
 		direction_of_margin = IntegerField()  
 		direction_of_asset_turnover = IntegerField()
+
+# Stretch Goals
+Users can upload a profile picture
+Users can rate other stocks
+Users can like other stocks
+Stocks update using live data
+
 
