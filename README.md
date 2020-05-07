@@ -1,4 +1,4 @@
-# Stock Proof
+# Stock Proof 
 
 ### Author
 Patrick Eaton
@@ -90,5 +90,20 @@ Users can upload a profile picture
 Users can rate other stocks
 Users can like other stocks
 Stocks update using live data
+
+# How to start:
+	1) install python3
+	
+	2) clone this repository in your terminal in a folder of your choosing, 
+	
+	3) in that new folder run virtual .env -p python 3 in your terminal
+	
+	4) now use source .env/bin/activate to run the virtual environment 
+
+	5) with (.env) in the terminal, run pip3 install -r requirement.txt 
+
+	6) then in the terminal enter pip3 freeze > requirements.txt 
+
+	7) now just enter python3 app.py in the new folder to run the app
 
 
