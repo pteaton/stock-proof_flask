@@ -40,6 +40,7 @@ Cloudinary, CORS, Postgress SQL, Python-Flask, React & Sqlite
 	bio = TextField()
 
 ### Stock
+	company_name = CharField() = name of company
 	bad_management = CharField() – stable management,  low turnover mid/high positions
 	balance_sheet = CharField() – assets, liabilities, net worth calculation	
 	enterprise_life_cycle = TextField() – development, reinvestment for success		
@@ -72,7 +73,7 @@ Scored on a scale of 0 - 9
 	direction_of_margin = IntegerField()  
 	direction_of_asset_turnover = IntegerField()
 
-### Stretch Goals
+# Stretch Goals
 Users can upload a profile picture
 
 Users can rate other stocks
@@ -81,7 +82,7 @@ Users can like other stocks
 
 Stocks update using live data
 
-### How to start app:
+# How to start app:
 1) install python3
 	
 2) clone this repository in your terminal in a folder of your choosing, 
