@@ -67,21 +67,24 @@ Sqlite
 
 
 ### Piotroski F-Score Screen:  
-	- determines value of stock
-	- (0 = fail; 1 = pass, scored out of 9)
+Used to determines value of stock
 
-### Profitability: (4 points)
+uUses a binary pass/fail system 
+
+Scored on a scale from 0 to 9
+
+## Profitability: (4 points)
 		return_on_asset =: IntegerField() 
 		cash_flow_from_operations = IntegerField() 
 		direction_of_return_on_assets = IntegerField() 
 		accrual_accounting_check = IntegerField() 
 
-### CapitalStructure: (3 points)
+## CapitalStructure: (3 points)
 		direction_of_leverage = IntegerField() 
 		direction_of_liquidity = IntegerField()  
 		issue_stock = IntegerField()  	
 	
-### OperatingEfficiency: (2 points)
+## OperatingEfficiency: (2 points)
 		direction_of_margin = IntegerField()  
 		direction_of_asset_turnover = IntegerField()
 
