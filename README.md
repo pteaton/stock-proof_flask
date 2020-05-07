@@ -24,9 +24,9 @@ Sqlite
 	DELETE  /users/<id> - delete user profile
 
 ### Stocks
-	GET		/mystocks – shows stocks
+	GET	/mystocks – shows stocks
 	POST	/stocks - create stock
-	PUT		/stocks/<id> – edit/update stock 
+	PUT	/stocks/<id> – edit/update stock 
 	DELETE	/stocks/<id> – delete stock
 
 ### Screens
