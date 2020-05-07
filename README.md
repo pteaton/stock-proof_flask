@@ -3,17 +3,12 @@
 ### Author
 Patrick Eaton
 
-# About
+### About
 Do you play the stock market? Do you want to let people know about your successful stocks or warn others of stocks to avoid? Well then stockproof is for you! stockproof allows you to create and test stocks using the piotroski f-score to determine if the stock is worth pursuing, if the stock runs well on the f-score then upload it to the stock show page for other users to see!
 
 
-# Technology Used
-Cloudinary
-CORS
-Postgress SQL
-Python-Flask
-React
-Sqlite
+### Technology Used
+Cloudinary, CORS, Postgress SQL, Python-Flask, React & Sqlite
 
 # Routes
 ### Users
@@ -54,8 +49,6 @@ Sqlite
 	operating_efficiency = IntegerField() – Return on Assets = net income/assets
 	creator = ForeignKeyField(User, backref=’stocks’) – cites the author of the stock
 	date_posted = date(default=date.time.datetime.now) – time stock posted
-	
-
 
 ## Piotroski F-Score Screen:  
 Used to determines value of stock
