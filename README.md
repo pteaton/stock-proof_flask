@@ -4,10 +4,8 @@
 Patrick Eaton
 
 # About
-App that allows you to create and test stocks using the piotroski f-score to determine if the stock is worth pursuing, if the stock runs well on the f-score then upload it to the stock show page for other users to see!
+Do you play the stock market? Do you want to let people know about your successful stocks or warn others of stocks to avoid? Well then stockproof is for you! stockproof allows you to create and test stocks using the piotroski f-score to determine if the stock is worth pursuing, if the stock runs well on the f-score then upload it to the stock show page for other users to see!
 
-# Audience
-People who play the stock market and are interested in sharing their good stocks with others; they can also test their stocks in the piotroski f-score
 
 # Technology Used
 Cloudinary
@@ -21,20 +19,20 @@ Sqlite
 ### Users
 	POST	/users/login – user login 
 	POST	/users/register – user register
-	GET	/users/logout – user logout
-	PUT /users/<id> – user edit/update profile
-	DELETE /users/<id> - delete user profile
+	GET		/users/logout – user logout
+	PUT 	/users/<id> – user edit/update profile
+	DELETE  /users/<id> - delete user profile
 
 ### Stocks
-	GET	/mystocks – shows stocks
+	GET		/mystocks – shows stocks
 	POST	/stocks - create stock
-	PUT	/stocks/<id> – edit/update stock 
+	PUT		/stocks/<id> – edit/update stock 
 	DELETE	/stocks/<id> – delete stock
 
 ### Screens
-	GET	 /myscreens – shows user screens
+	GET	 	/myscreens – shows user screens
 	POST	/screens – create screen
-	PUT	/screens/<id> - edit/update screen
+	PUT		/screens/<id> - edit/update screen
 	DELETE	/screens/<id> - delete screen
 
 
