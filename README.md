@@ -8,7 +8,7 @@ Do you play the stock market? Do you want to let people know about your successf
 
 
 ### Technology Used
-Cloudinary, CORS, Postgress SQL, Python-Flask, React & Sqlite
+CORS, Postgress SQL, Python-Flask, React & Sqlite
 
 # Routes
 ### Users
@@ -41,7 +41,6 @@ Cloudinary, CORS, Postgress SQL, Python-Flask, React & Sqlite
 	email = CharField(unique=True)
 	username = CharField(unique=True)
 	password = CharField()
-	profile_photo = TextField()
 	bio = TextField()
 
 ### Stock
