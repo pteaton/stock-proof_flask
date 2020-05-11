@@ -95,3 +95,40 @@ def login():
 			message="Email or password is incorrect",
 			status=401
 		), 401
+
+# destroy user
+@users.route('/<id>', methods=['DELETE'])
+@login_required
+def delete_account(id):
+	user_to_delete = models.User.get_by_id(id)
+
+	if current_user.id == user_to_delete.id:
+		user_to_delete.delete_instance()
+
+		return jsonify(
+			data={},
+			message="Your account has been successfully deleted",
+			status=200
+		), 200
+
+	else:
+		return jsonify(
+			data={},
+			message="This account does not belong to you",
+			status=403
+		), 403
+
+	return "delete route is here"
+
+
+# logout user
+@users.route('/logout', methods=['GET'])
+def logout():
+	logout_user()
+	return jsonify(
+		data={},
+		message="Successfully logged out.",
+		status=200
+	), 200
+
+
