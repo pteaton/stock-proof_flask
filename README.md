@@ -8,7 +8,7 @@ Do you play the stock market? Do you want to let people know about your successf
 
 
 ### Technology Used
-CORS, Postgress SQL, Python-Flask, React & Sqlite
+Cloudinary, CORS, Postgress SQL, Python-Flask, React & Sqlite
 
 # Routes
 ### Users
@@ -20,6 +20,7 @@ CORS, Postgress SQL, Python-Flask, React & Sqlite
 
 ### Stocks
 	GET	/mystocks – shows stocks
+	GET /allstocks - shows all stocks
 	POST	/stocks - create stock
 	PUT	/stocks/<id> – edit/update stock 
 	DELETE	/stocks/<id> – delete stock
@@ -30,46 +31,38 @@ CORS, Postgress SQL, Python-Flask, React & Sqlite
 	PUT 	/screens/<id> - edit/update screen
 	DELETE	/screens/<id> - delete screen
 
+### Tracker
+	GET 	/mytracker – shows user porfolio	
+	DELETE /tracker/<id> - delete stock 
+
 
 # Models 
 ### User
 	email = CharField(unique=True)
 	username = CharField(unique=True)
 	password = CharField()
-	profile_pic = TextField()
+	profile_photo = TextField()
 	bio = TextField()
 
 ### Stock
-	company_name = CharField() = name of company
-	bad_management = CharField() – stable management,  low turnover mid/high positions
-	balance_sheet = CharField() – assets, liabilities, net worth calculation	
-	enterprise_life_cycle = TextField() – development, reinvestment for success		
-	economic_moat = TextField() – competitive advantages	
-	dividend_paying_stock = CharField() – business compounds wealth over time	
-	earnings_stability = CharField() –  yes/no -- lowers chance of forecasting errors and risk	
-	operating_efficiency = IntegerField() – Return on Assets = net income/assets
-	creator = ForeignKeyField(User, backref=’stocks’) – cites the author of the stock
-	date_posted = date(default=date.time.datetime.now) – time stock posted
+	company_name = CharField()
+	market_cap = IntegerField()
+	beta = IntegerField()
+	open = IntegerField()
+	previous_close = IntegerField()
+	pe_ratio = IntegerField()
+	earnings_per_share = IntegerField()	
+	poster = ForeignKeyField(User, backref=’stocks’) 
+	date_posted = date(default=date.time.datetime.now)
 
 ## Piotroski F-Score Screen:  
-Used to determines value of stock
-
-Uses a binary pass/fail system 
-
-Scored on a scale of 0 - 9
-
-### Profitability: (4 points)
-	return_on_asset =: IntegerField() 
+	return_on_asset = IntegerField() 
 	cash_flow_from_operations = IntegerField() 
 	direction_of_return_on_assets = IntegerField() 
 	accrual_accounting_check = IntegerField() 
-
-### CapitalStructure: (3 points)
 	direction_of_leverage = IntegerField() 
 	direction_of_liquidity = IntegerField()  
 	issue_stock = IntegerField()  	
-	
-### OperatingEfficiency: (2 points)
 	direction_of_margin = IntegerField()  
 	direction_of_asset_turnover = IntegerField()
 
