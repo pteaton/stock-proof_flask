@@ -1,5 +1,6 @@
 from flask import Flask
 from resources.users import users
+from resources.stocks import stocks
 import models
 from flask_login import LoginManager
 
@@ -37,7 +38,7 @@ def unauthorized():
 
 # Blueprint
 app.register_blueprint(users, url_prefix='/api/v1/users')
-
+app.register_blueprint(stocks, url_prefix='/api/v1/stocks')
 
 # jsonify test
 @app.route('/test_json')
