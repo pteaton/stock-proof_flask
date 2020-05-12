@@ -216,6 +216,18 @@ def delete_stock(id):
 			status=404
 		), 404
 
+@stocks.route('/mystocks', methods=['GET'])
+@login_required
+def my_stocks():
+	
+	current_user_dict = model_to_dict(current_user)
 
+	current_user_stocks = [model_to_dict(stocks) for stocks in current_user.stocks]
+
+	return jsonify(
+		data=current_user_stocks,
+		message="Found your stocks",
+		status=200
+	), 200
 
 
