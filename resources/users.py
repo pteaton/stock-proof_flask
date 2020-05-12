@@ -96,6 +96,24 @@ def login():
 			status=401
 		), 401
 
+# user show route
+@users.route('/<id>', methods=['GET'])
+def show_user(id):
+	user = models.User.get(models.User.id == id)
+	user_dict = model_to_dict(user)
+	user_dict.pop('password')
+
+	print(user_dict)
+	user_artwork = [model_to_dict(stocks) for stocks in user.stocks]
+	print('user_stock', user_stock)
+
+	return jsonify(
+		data = user_dict,
+		artworks=user_stock,
+		message = f'Display info for {user_dict["username"]}, ID#{user_dict["id"]}',
+		status = 200
+	), 200
+
 # destroy user
 @users.route('/<id>', methods=['DELETE'])
 @login_required
@@ -119,6 +137,38 @@ def delete_account(id):
 		), 403
 
 	return "delete route here"
+
+# edit user
+@users.route('/<id>', methods=['PUT'])
+@login_required
+def edit_user(id):
+	payload = request.get_json()
+	user_to_edit = models.User.get_by_id(id)
+
+	if current_user.id == user_to_edit.id:
+
+		user_to_edit.username = payload['username']
+		user_to_edit.email = payload['email']
+		user_to_edit.bio = payload['bio']
+
+		user_to_edit.save()
+
+		user_to_edit_dict = model_to_dict(user_to_edit)
+
+		return jsonify(
+			data = user_to_edit_dict,
+			message = 'Successfully edited your profile',
+			status = 201
+		), 201
+
+	else:
+
+		return jsonify(
+			data = {},
+			message = "That is not your account",
+			status = 403
+		), 403
+
 
 
 # logout user
