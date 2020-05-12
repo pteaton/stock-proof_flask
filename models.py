@@ -1,6 +1,12 @@
+import os
+from peewee import *
 import datetime
 from flask_login import UserMixin
 from playhouse.db_url import connect
+
+DATABASE = SqliteDatabase('stocks.sqlite')
+DATABASE = SqliteDatabase('screens.sqlite')
+
 
 class User(UserMixin, Model):
 	username=CharField(unique=True)
@@ -9,7 +15,7 @@ class User(UserMixin, Model):
 	bio=TextField()
 
 	class Meta:
-		database = DATABASE
+		database=DATABASE
 
 
 class Stock(Model):
@@ -21,10 +27,10 @@ class Stock(Model):
 	price_to_earnings_ratio=IntegerField()
 	earnings_per_share=IntegerField()
 	poster=ForeignKeyField(User, backref='stocks')
-	date_posted=date(default=date.time.datetime.now)
+	date_posted=DateTimeField(default=datetime.datetime.now)
 
 	class Meta:
-		database = DATABASE
+		database=DATABASE
 
 
 class Screen(Model):
@@ -39,12 +45,12 @@ class Screen(Model):
 	direction_of_asset_turnover=IntegerField()
 
 	class Meta:
-		database = DATABASE
+		database=DATABASE
 
 
 
 def initialize():
 	DATABASE.connect()
-	DATABASE.create_tables([User, Review, Screen, Tracker], safe=True)
+	DATABASE.create_tables([User, Stock, Screen], safe=True)
 	print("DB connected and created tables")
 	DATABASE.close()

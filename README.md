@@ -45,7 +45,7 @@ CORS, Postgress SQL, Python-Flask, React & Sqlite
 
 ### Stock
 	company_name = CharField()
-	market_cap = IntegerField()
+	market_open = IntegerField()
 	beta = IntegerField()
 	open = IntegerField()
 	previous_close = IntegerField()

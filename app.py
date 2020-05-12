@@ -1,6 +1,7 @@
-from flask import Flask
-from resources.users import users
+import os
+from flask import Flask, jsonify, g
 from resources.stocks import stocks
+from resources.users import users
 import models
 from flask_login import LoginManager
 
@@ -50,5 +51,6 @@ def get_json():
 
 # Run App
 if __name__ == '__main__':
+	models.initialize()
 	app.run(debug=DEBUG, port=PORT)
 

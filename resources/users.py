@@ -27,7 +27,7 @@ def register():
 
 		return jsonify(
 			data={},
-			message=f"Sorry bud, a user with the email {payload['email']} already exists",
+			message=f"Sorry but a user with the email {payload['email']} already exists",
 			status=401
 		), 401
 
@@ -118,7 +118,7 @@ def delete_account(id):
 			status=403
 		), 403
 
-	return "delete route is here"
+	return "delete route here"
 
 
 # logout user
