@@ -43,8 +43,8 @@ class Screen(Model):
 	issue_stock=IntegerField()
 	direction_of_margin=IntegerField()
 	direction_of_asset_turnover=IntegerField()
-	poster=ForeignKeyField(User, backref='stocks')
-
+	poster=ForeignKeyField(User, backref='screens')
+	date_posted=DateTimeField(default=datetime.datetime.now)
 
 	class Meta:
 		database=DATABASE

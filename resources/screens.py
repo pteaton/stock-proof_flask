@@ -46,8 +46,8 @@ def get_all_screens():
 	}), 200
 
 
-# create screen - POST /screens/
-@screens.route('/', methods=['POST'])
+# create screen - POST /screens/add
+@screens.route('/add', methods=['POST'])
 @login_required
 def create_screen():
 
@@ -128,6 +128,42 @@ def update_screen(id):
 			message="Username does not match screen id. Only OP can update",
 			status=403
 		), 403
+
+# show screens - GET /<id>/
+@screens.route('/<id>', methods=['GET'])
+def show_screen(id):
+
+	screen = models.Screen.get_by_id(id)
+
+	if not current_user.is_authenticated:
+		return jsonify(
+			data={
+				'return_on_asset': screen.return_on_asset,
+				'cash_flow_from_operations': screen.cash_flow_from_operations,
+				'direction_of_return_on_assets': screen.direction_of_return_on_assets,
+				'accrual_accounting_check': screen.accrual_accounting_check,
+				'direction_of_leverage': screen.direction_of_leverage,
+				'direction_of_liquidity': screen.direction_of_liquidity,
+				'issue_stock': screen.issue_stock,
+				'direction_of_margin': screen.direction_of_margin,
+				'direction_of_asset_turnover': screen.direction_of_asset_turnover
+			},
+			message="Registered users can see the info about this screening",
+			status=200
+		), 200
+
+	else:
+		screen_dict = model_to_dict(screen)
+		screen_dict['poster'].pop(password)
+
+		if screen.poster.id != current_user.id:
+			screen_dict.pop('date_posted')
+
+		return jsonify(
+			data=screen_dict,
+			message=f"Found screen with id {id}",
+			status=200
+		), 200
 
 
 
