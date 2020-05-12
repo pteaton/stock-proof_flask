@@ -1,10 +1,35 @@
 import models
 import datetime
+import pandas as pd
+from alpha_vantage.timeseries import TimeSeries
+import time
 from flask import Blueprint, request, jsonify
 from playhouse.shortcuts import model_to_dict
 from flask_login import current_user, login_required
 
 stocks = Blueprint('stocks', 'stocks')
+
+# stock api - volatility of stock/realtime data
+api_key = 'EIRKD54AJXO1NRSD'
+
+ts = TimeSeries(key=api_key, output_format='pandas')
+data, meta_data = ts.get_intraday(symbol='MSFT', interval='60min', outputsize='compact')
+print(data)
+			# variable in symbol, use to search, route for stock
+i = 1
+while i==1:
+	data, meta_data = ts.get_intraday(symbol='MSFT', interval='60min', outputsize='compact')
+	time.sleep(60)
+
+close_data = data['4. close']
+percentage_change = close_data.pct_change()
+
+print(percentage_change)
+
+last_change = percentage_change[-1]
+
+if abs(last_change) > 0.0004:
+	print("MSFT Alert:" + last_change)
 
 # route - GET /api/v1/stocks/ - mystocks
 @stocks.route('/', methods=['GET'])
@@ -27,7 +52,7 @@ def stocks_index():
 
 # route - GET /stocks/all - all stocks
 @stocks.route('/all')
-def get_all_stockss():
+def get_all_stocks():
 	stocks = models.Stock.select()
 
 	stock_dicts = [model_to_dict(stock) for stock in stocks]
