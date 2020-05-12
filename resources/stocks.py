@@ -13,12 +13,12 @@ stocks = Blueprint('stocks', 'stocks')
 api_key = 'EIRKD54AJXO1NRSD'
 
 ts = TimeSeries(key=api_key, output_format='pandas')
-data, meta_data = ts.get_intraday(symbol='MSFT', interval='60min', outputsize='compact')
+data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
 print(data)
 			# variable in symbol, use to search, route for stock
 i = 1
 while i==1:
-	data, meta_data = ts.get_intraday(symbol='MSFT', interval='60min', outputsize='compact')
+	data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
 	time.sleep(60)
 
 close_data = data['4. close']
@@ -78,12 +78,11 @@ def create_stock():
 
 	new_stock = models.Stock.create(
 		company_name=payload['company_name'],
-		market_cap=payload['market_cap'],
-		beta=payload['beta'],
 		stock_open=payload['stock_open'],
-		previous_close=payload['previous_close'],
-		price_to_earnings_ratio=payload['price_to_earnings_ratio'],
-		earnings_per_share=payload['earnings_per_share'],
+		stock_high=payload['stock_high'],
+		stock_low=payload['stock_low'],
+		stock_close=payload['stock_close'],
+		stock_volume=payload['stock_volume'],
 		poster=current_user.id,
 		date_posted=datetime.datetime.now()
 	)
@@ -115,18 +114,16 @@ def update_stock(id):
 
 		if 'company_name' in payload:
 			stock_to_update.company_name = payload['company_name']
-		if 'market_cap' in payload:
-			stock_to_update.market_cap = payload['market_cap']
-		if 'beta' in payload:
-			stock_to_update.beta = payload['beta']
 		if 'stock_open' in payload:
 			stock_to_update.stock_open = payload['stock_open']
-		if 'previous_close' in payload:
-			stock_to_update.previous_close = payload['previous_close']
-		if 'price_to_earnings_ratio' in payload:
-			stock_to_update.price_to_earnings_ratio = payload['price_to_earnings_ratio']
-		if 'earnings_per_share' in payload:
-			stock_to_update.earnings_per_share = payload['earnings_per_share']
+		if 'stock_high' in payload:
+			stock_to_update.stock_high = payload['stock_high']
+		if 'stock_low' in payload:
+			stock_to_update.stock_low = payload['stock_low']
+		if 'stock_close' in payload:
+			stock_to_update.stock_close = payload['stock_close']
+		if 'stock_volume' in payload:
+			stock_to_update.stock_volume = payload['stock_volume']
 
 		stock_to_update.save()
 		updated_stock_dict = model_to_dict(stock_to_update)

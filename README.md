@@ -45,12 +45,11 @@ CORS, Postgress SQL, Python-Flask, React & Sqlite
 
 ### Stock
 	company_name = CharField()
-	market_open = IntegerField()
-	beta = IntegerField()
-	open = IntegerField()
+	stock_open = IntegerField()
+	stock_high = IntegerField()
+	stock_low = IntegerField()
 	previous_close = IntegerField()
-	pe_ratio = IntegerField()
-	earnings_per_share = IntegerField()	
+	volume = IntegerField()	
 	poster = ForeignKeyField(User, backref=’stocks’) 
 	date_posted = date(default=date.time.datetime.now)
 
