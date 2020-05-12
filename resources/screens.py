@@ -165,6 +165,42 @@ def show_screen(id):
 			status=200
 		), 200
 
+# destroy screen - DELETE /<id>/
+@screens.route('/<id>', methods=['DELETE'])
+@login_required
+def delete_screen():
+
+	try:
+
+		screen_to_delete = models.Screen.get_by_id(id)
+
+		if screen_to_delete.poster.id == current_user.id:
+			screen_to_delete.delete_instance()
+
+			return jsonify(
+				data={},
+				message=f"Successfully deleted screen with id {id}",
+				status=200
+			), 200
+
+		else:
+
+			return jsonify(
+				data={
+					'error': '403 Forbidden'
+				},
+				message="Username does not match screen id. Only OP can delete",
+				status=403
+			), 403
+
+	except models.DoesNotExist:
+		return jsonify(
+			data={
+				'error': '404 Not Found'
+			},
+			message="Sorry, but there is no record of a screen that ID here",
+			status=404
+		), 404
 
 
 
