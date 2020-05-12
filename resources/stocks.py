@@ -76,7 +76,7 @@ def create_stock():
 	), 201
 
 
-# update review route
+# update stock route
 @stocks.route('/<id>', methods=['PUT'])
 @login_required
 def update_stock(id):
@@ -118,7 +118,82 @@ def update_stock(id):
 			data={
 				'error': '403 Forbidden'
 			},
-			message="Username doesn't match review id. Only creator can update",
+			message="Username doesn't match stock id. Only creator can update",
 			status=403
 		), 403
+
+
+# show stocks
+@stocks.route('/<id>', methods=['GET'])
+def show_stock(id):
+	stock = models.Stock.get_by_id(id)
+
+	if not current_user.is_authenticated:
+		return jsonify(
+			data={
+				'company_name': stock.company_name,
+				'market_cap': stock.market_cap,
+				'beta': stock.beta,
+				'stock_open': stock.stock_open,
+				'previous_close': stock.previous_close,
+				'price_to_earnings_ratio': stock.price_to_earnings_ratio,
+				'earnings_per_share': stock.earnings_per_share
+			},
+			message="Registered users can see more info about this stock",
+			status=200
+		), 200
+
+	else: 
+		stock_dict = model_to_dict(stock)
+		stock_dict['poster'].pop('password')
+
+		if stock.posted_by.id != current_user.id:
+			stock_dict.pop('date_posted')
+
+		return jsonify(
+			data=stock_dict,
+			message=f"Found stock with id {id}",
+			status=200
+		), 200
+
+
+# route to destroy stock
+@stocks.route('/<id>', methods=['DELETE'])
+@login_required
+def delete_stock(id):
+
+	try:
+
+		stock_to_delete = models.Stock.get_by_id(id)
+
+		if stock_to_delete.posted_by.id == current_user.id:
+			stock_to_delete.delete_instance()
+
+			return jsonify(
+				data={},
+				message=f"Successfully deleted stock with id {id}",
+				status=200
+			), 200
+
+		else:
+
+			return jsonify(
+				data={
+					'error': '403 Forbidden'
+				},
+				message="Username doesn't match stock id. Only OP can delete",
+				status=403
+			), 403
+
+	except models.DoesNotExist:
+		return jsonify(
+			data={
+				'error': '404 Not Found'
+			},
+			message="Sorry, but there is no record of a stock with this ID here",
+			status=404
+		), 404
+
+
+
 
