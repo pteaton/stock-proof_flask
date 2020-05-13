@@ -25,8 +25,8 @@ class Stock(Model):
 	stock_low = IntegerField()
 	previous_close = IntegerField()
 	stock_volume = IntegerField()	
-	poster = ForeignKeyField(User, backref=’stocks’) 
-	date_posted = date(default=date.time.datetime.now)
+	poster = ForeignKeyField(User, backref='stocks', on_delete="CASCADE") 
+	date_posted = DateTimeField(default=datetime.datetime.now)
 
 	class Meta:
 		database=DATABASE

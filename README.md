@@ -50,8 +50,8 @@ CORS, Postgress SQL, Python-Flask, React & Sqlite
 	stock_low = IntegerField()
 	previous_close = IntegerField()
 	volume = IntegerField()	
-	poster = ForeignKeyField(User, backref=’stocks’) 
-	date_posted = date(default=date.time.datetime.now)
+	poster = ForeignKeyField(User, backref='stocks') 
+	date_posted = DateTimeField(default=datetime.datetime.now)
 
 ## Piotroski F-Score Screen:  
 	return_on_asset = IntegerField() 
@@ -63,8 +63,8 @@ CORS, Postgress SQL, Python-Flask, React & Sqlite
 	issue_stock = IntegerField()  	
 	direction_of_margin = IntegerField()  
 	direction_of_asset_turnover = IntegerField()
-	poster = ForeignKeyField(User, backref=’screens’) 
-	date_posted = date(default=date.time.datetime.now)
+	poster = ForeignKeyField(User, backref='screens') 
+	date_posted = DateTimeField(default=datetime.datetime.now)
 
 # Stretch Goals
 Users can upload a profile picture

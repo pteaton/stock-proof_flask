@@ -4,6 +4,7 @@ from resources.stocks import stocks
 from resources.users import users
 import models
 from flask_login import LoginManager
+from flask_cors import CORS
 
 DEBUG=True
 PORT=8000
@@ -35,6 +36,10 @@ def unauthorized():
 		message="You must be logged in to access this resource.",
 		status=401
 	), 401
+
+# CORS
+CORS(stocks, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
 
 
 # Blueprint
