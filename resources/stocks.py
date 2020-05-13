@@ -154,12 +154,11 @@ def show_stock(id):
 		return jsonify(
 			data={
 				'company_name': stock.company_name,
-				'market_cap': stock.market_cap,
-				'beta': stock.beta,
 				'stock_open': stock.stock_open,
+				'stock_high': stock.stock_high,
+				'stock_low': stock.stock_low,
 				'previous_close': stock.previous_close,
-				'price_to_earnings_ratio': stock.price_to_earnings_ratio,
-				'earnings_per_share': stock.earnings_per_share
+				'stock_volume': stock.stock_volume,
 			},
 			message="Registered users can see more info about this stock",
 			status=200

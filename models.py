@@ -19,15 +19,14 @@ class User(UserMixin, Model):
 
 
 class Stock(Model):
-	company_name=CharField()
-	market_cap=IntegerField()
-	beta=IntegerField()
-	stock_open=IntegerField()
-	previous_close=IntegerField()
-	price_to_earnings_ratio=IntegerField()
-	earnings_per_share=IntegerField()
-	poster=ForeignKeyField(User, backref='stocks')
-	date_posted=DateTimeField(default=datetime.datetime.now)
+	company_name = CharField()
+	stock_open = IntegerField()
+	stock_high = IntegerField()
+	stock_low = IntegerField()
+	previous_close = IntegerField()
+	stock_volume = IntegerField()	
+	poster = ForeignKeyField(User, backref=’stocks’) 
+	date_posted = date(default=date.time.datetime.now)
 
 	class Meta:
 		database=DATABASE
