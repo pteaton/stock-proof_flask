@@ -15,39 +15,25 @@ stocks = Blueprint('stocks', 'stocks')
 # stock api from alpha vantage - volatility of stock/realtime data
 api_key = 'EIRKD54AJXO1NRSD'
 
-# style.use('ggplot')
-# start = dt.datetime(2010,1,1)
-# end = dt.datetime(2020,12,1)
 
-# df = web.DataReader('TSLA', 'yahoo', start, end)
-# df.to_csv('tsla.csv')
-# df = pd.read_csv('tsla.csv', parse_dates=True, index_col=0)
+ts = TimeSeries(key=api_key, output_format='pandas')
+data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
+ print(data)					
+			# variable in symbol, use to search, route for stock <stocksymb >
+i = 1
+while i==1:
+	data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
+	time.sleep(60)
 
-# searching for moving average price over last 100 days
-# df['100ma'] = df['Adj Close'].rolling(window=100).mean()
-# print (df.head())
+close_data = data['4. close']
+percentage_change = close_data.pct_change()
 
-# df.plot()
-# plt.show()
+print(percentage_change)
 
-# ts = TimeSeries(key=api_key, output_format='pandas')
-# data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
-# print(data)
-# 			# variable in symbol, use to search, route for stock
-# i = 1
-# while i==1:
-# 	data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
-# 	time.sleep(60)
+last_change = percentage_change[-1]
 
-# close_data = data['4. close']
-# percentage_change = close_data.pct_change()
-
-# print(percentage_change)
-
-# last_change = percentage_change[-1]
-
-# if abs(last_change) > 0.0004:
-# 	print("MSFT Alert:" + last_change)
+if abs(last_change) > 0.0004:
+	print("MSFT Alert:" + last_change)
 
 # route - GET /api/v1/stocks/ - mystocks
 @stocks.route('/', methods=['GET'])
