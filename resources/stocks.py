@@ -1,6 +1,9 @@
 import models
-import datetime
+import datetime as dt
+import matplotlib.pyplot as plt
+from matplotlib import style
 import pandas as pd
+import pandas_datareader.data as web
 from alpha_vantage.timeseries import TimeSeries
 import time
 from flask import Blueprint, request, jsonify
@@ -12,24 +15,36 @@ stocks = Blueprint('stocks', 'stocks')
 # stock api - volatility of stock/realtime data
 api_key = 'EIRKD54AJXO1NRSD'
 
-ts = TimeSeries(key=api_key, output_format='pandas')
-data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
-print(data)
-			# variable in symbol, use to search, route for stock
-i = 1
-while i==1:
-	data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
-	time.sleep(60)
+style.use('ggplot')
+start = dt.datetime(2010,1,1)
+end = dt.datetime(2020,12,1)
 
-close_data = data['4. close']
-percentage_change = close_data.pct_change()
+df = web.DataReader('TSLA', 'yahoo', start, end)
+df.to_csv('tsla.csv')
+df = pd.read_csv('tsla.csv', parse_dates=True, index_col=0)
+# print (df.head())
 
-print(percentage_change)
+df.plot()
+plt.show()
 
-last_change = percentage_change[-1]
+# ts = TimeSeries(key=api_key, output_format='pandas')
+# data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
+# print(data)
+# 			# variable in symbol, use to search, route for stock
+# i = 1
+# while i==1:
+# 	data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
+# 	time.sleep(60)
 
-if abs(last_change) > 0.0004:
-	print("MSFT Alert:" + last_change)
+# close_data = data['4. close']
+# percentage_change = close_data.pct_change()
+
+# print(percentage_change)
+
+# last_change = percentage_change[-1]
+
+# if abs(last_change) > 0.0004:
+# 	print("MSFT Alert:" + last_change)
 
 # route - GET /api/v1/stocks/ - mystocks
 @stocks.route('/', methods=['GET'])
