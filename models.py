@@ -33,7 +33,7 @@ class Stock(Model):
 
 
 class Screen(Model):
-	return_on_asset=IntegerField()
+	return_on_assets=IntegerField()
 	cash_flow_from_operations=IntegerField()
 	direction_of_return_on_assets=IntegerField()
 	accrual_accounting_check=IntegerField()

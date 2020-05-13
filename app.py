@@ -2,6 +2,7 @@ import os
 from flask import Flask, jsonify, g
 from resources.stocks import stocks
 from resources.users import users
+from resources.screens import screens
 import models
 from flask_login import LoginManager
 from flask_cors import CORS
@@ -40,11 +41,13 @@ def unauthorized():
 # CORS
 CORS(stocks, origins=['http://localhost:3000'], supports_credentials=True)
 CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(screens, origins=['http://localhost:3000'], supports_credentials=True)
 
 
 # Blueprint
 app.register_blueprint(users, url_prefix='/api/v1/users')
 app.register_blueprint(stocks, url_prefix='/api/v1/stocks')
+app.register_blueprint(screens, url_prefix='/api/v1/screens')
 
 # jsonify test
 @app.route('/test_json')

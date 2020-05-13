@@ -12,20 +12,23 @@ from flask_login import current_user, login_required
 
 stocks = Blueprint('stocks', 'stocks')
 
-# stock api - volatility of stock/realtime data
+# stock api from alpha vantage - volatility of stock/realtime data
 api_key = 'EIRKD54AJXO1NRSD'
 
-style.use('ggplot')
-start = dt.datetime(2010,1,1)
-end = dt.datetime(2020,12,1)
+# style.use('ggplot')
+# start = dt.datetime(2010,1,1)
+# end = dt.datetime(2020,12,1)
 
-df = web.DataReader('TSLA', 'yahoo', start, end)
-df.to_csv('tsla.csv')
-df = pd.read_csv('tsla.csv', parse_dates=True, index_col=0)
+# df = web.DataReader('TSLA', 'yahoo', start, end)
+# df.to_csv('tsla.csv')
+# df = pd.read_csv('tsla.csv', parse_dates=True, index_col=0)
+
+# searching for moving average price over last 100 days
+# df['100ma'] = df['Adj Close'].rolling(window=100).mean()
 # print (df.head())
 
-df.plot()
-plt.show()
+# df.plot()
+# plt.show()
 
 # ts = TimeSeries(key=api_key, output_format='pandas')
 # data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')

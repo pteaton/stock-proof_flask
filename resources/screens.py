@@ -54,7 +54,7 @@ def create_screen():
 	payload = request.get_json()
 
 	new_screen = models.Screen.create(
-		return_on_asset=payload['return_on_asset'],
+		return_on_assets=payload['return_on_assets'],
 		cash_flow_from_operations=payload['cash_flow_from_operations'],
 		direction_of_return_on_assets=payload['direction_of_return_on_assets'],
 		accrual_accounting_check=payload['accrual_accounting_check'],
