@@ -16,84 +16,107 @@ def text_user_resource():
 # register user
 @users.route('/register', methods=['POST'])
 def register():
+	print("here please work")
 	payload = request.get_json()
-
-	payload['email'] = payload['email'].lower()
+	print("ABOVE THIS IS THE PAYLOAD\n\n\n\n")
 	payload['username'] = payload['username'].lower()
+	payload['email'] = payload['email'].lower()
+	# need this? payload['bio'] = payload['bio'].lower()
 	print(payload)
 
 	try:
-		models.User.get(models.User.email == payload['email'])
 
-		return jsonify(
-			data={},
-			message=f"Sorry but a user with the email {payload['email']} already exists",
-			status=401
+		models.User.get(models.User.username == payload['username'])
+
+		return jsonify (
+			data = {},
+			message = "Sorry that username is already taken",
+			status = 401
 		), 401
 
 	except models.DoesNotExist:
-		pw_hash = generate_password_hash(payload['password'])
 
-		created_user = models.User.create(
-			username=payload['username'],
-			email=payload['email'],
-			password=pw_hash
-		)
-		print(created_user)
+		try: 
+			models.User.get(models.User.email == payload['email'])
 
-		login_user(created_user)
-
-		created_user_dict = model_to_dict(created_user)
-		print(created_user_dict)
-
-		print(type(created_user_dict['password']))
-
-		created_user_dict.pop('password')
-
-		return jsonify(
-			data=created_user_dict,
-			message=f"Successfully registered user {created_user_dict['email']}",
-			status=201
-		), 201
-
-# login
-@users.route('/login', methods=['POST'])
-def login():
-	payload = request.get_json()
-	payload['email'] = payload['email'].lower()
-	payload['username'] = payload['username'].lower()
-
-	try:
-		user = models.User.get(models.User.email == payload['email'])
-		user_dict = model_to_dict(user)
-		password_is_good = check_password_hash(user_dict['password'], payload['password'])
-
-		if(password_is_good):
-			login_user(user)
-			print(model_to_dict(user))
-
-			user_dict.pop('password')
-
-			return jsonify(
-				data=user_dict,
-				message=f"Successfully logged in {user_dict['email']}",
-				status=201
-			), 201
-
-		else:
-			print('pw is no good here')
 			return jsonify(
 				data={},
-				message="Email or password is incorrect",
+				message=f"Sorry but a user with the email {payload['email']} already exists",
 				status=401
 			), 401
 
+		except models.DoesNotExist:
+			pw_hash = generate_password_hash(payload['password'])
+
+			created_user = models.User.create(
+				username=payload['username'],
+				email=payload['email'],
+				bio=payload['bio'],
+				password=pw_hash
+			)
+			print(created_user)
+
+			login_user(created_user)
+
+			created_user_dict = model_to_dict(created_user)
+			print(created_user_dict)
+
+			print(type(created_user_dict['password']))
+
+			created_user_dict.pop('password')
+
+			return jsonify(
+				data=created_user_dict,
+				message=f"Successfully registered user {created_user_dict['email']}",
+				status=201
+			), 201
+# login
+@users.route('/login', methods=['POST'])
+def login_artist():
+
+	payload = request.get_json()
+	payload['username'] = payload['username'].lower()
+	print("Login route, here's payload, does this work?", payload)
+
+	# look up username to help?
+	try:
+		user = models.User.get(models.User.username == payload['username'])
+		
+
+		user_dict = model_to_dict(user)
+		print("USER DICT from line 83 in users", user_dict)
+		good_password = check_password_hash(user_dict['password'], payload['password'])
+
+		if good_password:
+
+			login_user(user)
+
+			user_dict.pop('password')
+			
+			return jsonify(
+				data = user_dict,
+				message = f'Hey {user_dict["username"]}!',
+				status = 201
+			), 201
+
+		else:
+
+			print("bad password")
+
+			return jsonify(
+				data = {},
+				message = "Wrong username or password :(",
+				status = 401
+			), 401
+
 	except models.DoesNotExist:
-		print('username is no good here')
+
+		print("bad username")
+
 		return jsonify(
-			data={},
-			message="Email or password is incorrect",
-			status=401
+			data = {},
+			message = "Wrong username or password :(",
+			status = 401
 		), 401
 
 # user show route
@@ -104,7 +127,7 @@ def show_user(id):
 	user_dict.pop('password')
 
 	print(user_dict)
-	user_artwork = [model_to_dict(stocks) for stocks in user.stocks]
+	user_stocks = [model_to_dict(stocks) for stocks in user.stocks]
 	print('user_stock', user_stock)
 
 	return jsonify(

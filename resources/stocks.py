@@ -1,9 +1,6 @@
 import models
 import datetime as dt
-import matplotlib.pyplot as plt
-from matplotlib import style
 import pandas as pd
-import pandas_datareader.data as web
 from alpha_vantage.timeseries import TimeSeries
 import time
 from flask import Blueprint, request, jsonify
@@ -13,27 +10,26 @@ from flask_login import current_user, login_required
 stocks = Blueprint('stocks', 'stocks')
 
 # stock api from alpha vantage - volatility of stock/realtime data
-api_key = 'EIRKD54AJXO1NRSD'
+# api_key = 'EIRKD54AJXO1NRSD'
 
 
-ts = TimeSeries(key=api_key, output_format='pandas')
-data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
- print(data)					
-			# variable in symbol, use to search, route for stock <stocksymb >
-i = 1
-while i==1:
-	data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
-	time.sleep(60)
+# ts = TimeSeries(key=api_key, output_format='pandas')
+# data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
+# print(data)					
+# 			# variable in symbol, use to search, route for stock <stocksymb>
 
-close_data = data['4. close']
-percentage_change = close_data.pct_change()
+# data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
 
-print(percentage_change)
 
-last_change = percentage_change[-1]
+# close_data = data['4. close']
+# percentage_change = close_data.pct_change()
 
-if abs(last_change) > 0.0004:
-	print("MSFT Alert:" + last_change)
+# print(percentage_change)
+
+# last_change = percentage_change[-1]
+
+# if abs(last_change) > 0.0004:
+# 	print("MSFT Alert:" + last_change)
 
 # route - GET /api/v1/stocks/ - mystocks
 @stocks.route('/', methods=['GET'])
@@ -77,9 +73,9 @@ def get_all_stocks():
 @stocks.route('/', methods=['POST'])
 @login_required
 def create_stock():
-	
+	# edit to change from user input to api input
 	payload = request.get_json()
-
+	# call api
 	new_stock = models.Stock.create(
 		company_name=payload['company_name'],
 		stock_open=payload['stock_open'],
