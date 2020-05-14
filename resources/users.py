@@ -72,7 +72,7 @@ def register():
 			), 201
 # login
 @users.route('/login', methods=['POST'])
-def login_artist():
+def login():
 
 	payload = request.get_json()
 	payload['username'] = payload['username'].lower()
@@ -84,7 +84,7 @@ def login_artist():
 		
 
 		user_dict = model_to_dict(user)
-		print("USER DICT from line 83 in users", user_dict)
+		print("WORKING? working?", user_dict)
 		good_password = check_password_hash(user_dict['password'], payload['password'])
 
 		if good_password:
