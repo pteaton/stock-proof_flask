@@ -23,7 +23,7 @@ stocks = Blueprint('stocks', 'stocks')
 ### Plot stocks on plot, create search page to add stock to porfolio
 ### then build way to map both user and  found stocks
 
-# route - GET /api/v1/stocks/ - mystocks
+# index route for stocks - GET /api/v1/
 @stocks.route('/', methods=['GET'])
 @login_required
 def stocks_index():
@@ -43,7 +43,7 @@ def stocks_index():
 
 
 
-# route - POST /stocks/ - create stock
+# create stock route - POST api/v1/stocks/add 
 @stocks.route('/add', methods=['POST'])
 @login_required
 def create_stock():
@@ -69,10 +69,23 @@ def create_stock():
 		status=201
 	), 201
 
+# show all stocks - GET api/v1/stocks/all
+@stocks.route('/all', methods=['GET'])
+def display_all_stocks():
+	stocks = models.Stock.select()
+
+	stock_dicts = [ model_to_dict(stock) for stock in stocks]
+	for stock_dict in stock_dicts:
+		stock_dict['user'].pop('password')
+
+	return jsonify (
+		data=stock_dicts,
+		message=f"Found {len(stocks)} here",
+		status=200
+	), 200
 
 
-
-# show stocks
+# show stock - GET api/v1/stocks/<id>
 @stocks.route('/<id>', methods=['GET'])
 def show_stock(id):
 	stock = models.Stock.get_by_id(id)
@@ -101,7 +114,7 @@ def show_stock(id):
 		), 200
 
 
-# route to destroy stock
+# destroy stock route  - DELETE api/v1/stocks/<id>
 @stocks.route('/<id>', methods=['DELETE'])
 @login_required
 def delete_stock(id):
@@ -138,6 +151,7 @@ def delete_stock(id):
 			status=404
 		), 404
 
+# User - GET api/v1/stocks/mystocks
 @stocks.route('/mystocks', methods=['GET'])
 @login_required
 def my_stocks():
