@@ -4,7 +4,8 @@
 Patrick Eaton
 
 ### About
-Do you play the stock market? Do you want to let people know about your successful stocks or warn others of stocks to avoid? Well then stockproof is for you! stockproof allows you to create and test stocks using the piotroski f-score to determine if the stock is worth pursuing, if the stock runs well on the f-score then upload it to the stock show page for other users to see!
+Do you play the stock market? Do you want to let people know about your successful stocks or warn others of stocks to avoid? Well then stockproof is for you! Stockproof allows you to track certain stocks and add them to a portfolio for further study!
+
 
 
 ### Technology Used
@@ -25,17 +26,6 @@ CORS, Postgress SQL, Python-Flask, React & Sqlite
 	PUT	/stocks/<id> – edit/update stock 
 	DELETE	/stocks/<id> – delete stock
 
-### Screens
-	GET 	/myscreens – shows user screens
-	POST	/screens – create screen
-	PUT 	/screens/<id> - edit/update screen
-	DELETE	/screens/<id> - delete screen
-
-### Tracker
-	GET 	/mytracker – shows user porfolio	
-	DELETE /tracker/<id> - delete stock 
-
-
 # Models 
 ### User
 	email = CharField(unique=True)
@@ -44,36 +34,22 @@ CORS, Postgress SQL, Python-Flask, React & Sqlite
 	bio = TextField()
 
 ### Stock
-	company_name = CharField()
-	stock_open = IntegerField()
-	stock_high = IntegerField()
-	stock_low = IntegerField()
-	previous_close = IntegerField()
-	volume = IntegerField()	
-	poster = ForeignKeyField(User, backref='stocks') 
-	date_posted = DateTimeField(default=datetime.datetime.now)
+	symbol = CharField()
+	name = CharField()	
+	user = ForeignKeyField(User, backref='stocks', on_delete="CASCADE") 
+	date_added = DateTimeField(default=datetime.datetime.now)
 
-## Piotroski F-Score Screen:  
-	return_on_assets = IntegerField() 
-	cash_flow_from_operations = IntegerField() 
-	direction_of_return_of_assets = IntegerField() 
-	accrual_accounting_check = IntegerField() 
-	direction_of_leverage = IntegerField() 
-	direction_of_liquidity = IntegerField()  
-	issue_stock = IntegerField()  	
-	direction_of_margin = IntegerField()  
-	direction_of_asset_turnover = IntegerField()
-	poster = ForeignKeyField(User, backref='screens') 
-	date_posted = DateTimeField(default=datetime.datetime.now)
+
 
 # Stretch Goals
-Users can upload a profile picture
+Piotroski F-Score Screens stocks for value
 
-Users can rate other stocks
+Users can upload a profile picture
 
 Users can like other stocks
 
 Stocks update using live data
+
 
 # How to start app:
 1) install python3

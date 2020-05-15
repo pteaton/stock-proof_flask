@@ -21,7 +21,6 @@ def register():
 	print("ABOVE THIS IS THE PAYLOAD\n\n\n\n")
 	payload['username'] = payload['username'].lower()
 	payload['email'] = payload['email'].lower()
-	# need this? payload['bio'] = payload['bio'].lower()
 	print(payload)
 
 	try:

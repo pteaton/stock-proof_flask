@@ -1,7 +1,6 @@
 import models
-import datetime as dt
+import datetime
 import pandas as pd
-from alpha_vantage.timeseries import TimeSeries
 import time
 from flask import Blueprint, request, jsonify
 from playhouse.shortcuts import model_to_dict
@@ -13,23 +12,16 @@ stocks = Blueprint('stocks', 'stocks')
 # api_key = 'EIRKD54AJXO1NRSD'
 
 
-# ts = TimeSeries(key=api_key, output_format='pandas')
-# data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
-# print(data)					
-# 			# variable in symbol, use to search, route for stock <stocksymb>
+#######
+### Create stocks w/ name, symbol, logged in user
+### Show stocks - GET route for /all and /<id> (for user specific stocks)
+#######
 
-# data, meta_data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')
-
-
-# close_data = data['4. close']
-# percentage_change = close_data.pct_change()
-
-# print(percentage_change)
-
-# last_change = percentage_change[-1]
-
-# if abs(last_change) > 0.0004:
-# 	print("MSFT Alert:" + last_change)
+#######
+### IN REACT !!
+### Landing page for showing stocks both /all and /<id> 
+### Plot stocks on plot, create search page to add stock to porfolio
+### then build way to map both user and  found stocks
 
 # route - GET /api/v1/stocks/ - mystocks
 @stocks.route('/', methods=['GET'])
@@ -50,24 +42,6 @@ def stocks_index():
 	}), 200
 
 
-# route - GET /stocks/all - all stocks
-@stocks.route('/all')
-def get_all_stocks():
-	stocks = models.Stock.select()
-
-	stock_dicts = [model_to_dict(stock) for stock in stocks]
-
-	for stock_dict in stock_dicts:
-		stock_dict['poster'].pop('password')
-		if not current_user.is_authenticated:
-			stock_dict.pop('poster')
-
-	return jsonify({
-		'data': stock_dicts,
-		'message': f"Successfully found {len(stock_dicts)} stocks",
-		'status': 200
-
-	}), 200
 
 # route - POST /stocks/ - create stock
 @stocks.route('/', methods=['POST'])
@@ -77,21 +51,17 @@ def create_stock():
 	payload = request.get_json()
 	# call api
 	new_stock = models.Stock.create(
-		company_name=payload['company_name'],
-		stock_open=payload['stock_open'],
-		stock_high=payload['stock_high'],
-		stock_low=payload['stock_low'],
-		stock_close=payload['stock_close'],
-		stock_volume=payload['stock_volume'],
-		poster=current_user.id,
-		date_posted=datetime.datetime.now()
+		symbol=payload['symbol'],
+		name=payload['name'],
+		user=current_user.id,
+		date_added=datetime.datetime.now()
 	)
 
 	stock_dict = model_to_dict(new_stock)
 
 	print(stock_dict)
 
-	stock_dict['poster'].pop('password')
+	stock_dict['user'].pop('password')
 
 	return jsonify(
 		data=stock_dict,
@@ -100,49 +70,6 @@ def create_stock():
 	), 201
 
 
-# update stock route
-@stocks.route('/<id>', methods=['PUT'])
-@login_required
-def update_stock(id):
-
-	payload = request.get_json()
-	stock_to_update = models.Stock.get_by_id(id)
-	print(type(stock_to_update))
-	print(stock_to_update)
-
-	if stock_to_update.poster.id == current_user.id:
-
-		if 'company_name' in payload:
-			stock_to_update.company_name = payload['company_name']
-		if 'stock_open' in payload:
-			stock_to_update.stock_open = payload['stock_open']
-		if 'stock_high' in payload:
-			stock_to_update.stock_high = payload['stock_high']
-		if 'stock_low' in payload:
-			stock_to_update.stock_low = payload['stock_low']
-		if 'stock_close' in payload:
-			stock_to_update.stock_close = payload['stock_close']
-		if 'stock_volume' in payload:
-			stock_to_update.stock_volume = payload['stock_volume']
-
-		stock_to_update.save()
-		updated_stock_dict = model_to_dict(stock_to_update)
-		updated_stock_dict['poster'].pop('password')
-
-		return jsonify(
-			data=updated_stock_dict,
-			message=f"Successfully updated your stock with id {id}",
-			status=200
-		), 200
-
-	else:
-		return jsonify(
-			data={
-				'error': '403 Forbidden'
-			},
-			message="Username doesn't match stock id. Only creator can update",
-			status=403
-		), 403
 
 
 # show stocks
@@ -153,12 +80,8 @@ def show_stock(id):
 	if not current_user.is_authenticated:
 		return jsonify(
 			data={
-				'company_name': stock.company_name,
-				'stock_open': stock.stock_open,
-				'stock_high': stock.stock_high,
-				'stock_low': stock.stock_low,
-				'previous_close': stock.previous_close,
-				'stock_volume': stock.stock_volume,
+				'symbol': stock.symbol,
+				'name': stock.name,
 			},
 			message="Registered users can see more info about this stock",
 			status=200
@@ -166,10 +89,10 @@ def show_stock(id):
 
 	else: 
 		stock_dict = model_to_dict(stock)
-		stock_dict['poster'].pop('password')
+		stock_dict['user'].pop('password')
 
 		if stock.posted_by.id != current_user.id:
-			stock_dict.pop('date_posted')
+			stock_dict.pop('date_added')
 
 		return jsonify(
 			data=stock_dict,
