@@ -13,8 +13,8 @@ stocks = Blueprint('stocks', 'stocks')
 
 
 #######
-### Create stocks w/ name, symbol, logged in user
-### Show stocks - GET route for /all and /<id> (for user specific stocks)
+### Create stocks w/ name, symbol, logged in user [CHECKMARK]
+### Show stocks - GET route for /all and /<id> (for user specific stocks) [CHECKMARK; got stock for fatima]
 #######
 
 #######
@@ -31,7 +31,7 @@ def stocks_index():
 	current_user_stock_dicts = [model_to_dict(stock) for stock in current_user.stocks]
 	
 	for stock_dict in current_user_stock_dicts:
-		stock_dict['poster'].pop('password')
+		stock_dict['user'].pop('password')
 	
 	print(current_user_stock_dicts)
 
@@ -44,7 +44,7 @@ def stocks_index():
 
 
 # route - POST /stocks/ - create stock
-@stocks.route('/', methods=['POST'])
+@stocks.route('/add', methods=['POST'])
 @login_required
 def create_stock():
 	# edit to change from user input to api input
@@ -65,7 +65,7 @@ def create_stock():
 
 	return jsonify(
 		data=stock_dict,
-		message="Successfully created a stock!!",
+		message=f"Successfully created {stock_dict['name']}!!",
 		status=201
 	), 201
 
@@ -83,7 +83,7 @@ def show_stock(id):
 				'symbol': stock.symbol,
 				'name': stock.name,
 			},
-			message="Registered users can see more info about this stock",
+			message=f"Registered users can see more info about this stock",
 			status=200
 		), 200
 
@@ -110,7 +110,7 @@ def delete_stock(id):
 
 		stock_to_delete = models.Stock.get_by_id(id)
 
-		if stock_to_delete.posted_by.id == current_user.id:
+		if stock_to_delete.user.id == current_user.id:
 			stock_to_delete.delete_instance()
 
 			return jsonify(

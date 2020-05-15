@@ -118,6 +118,16 @@ def login():
 			status = 401
 		), 401
 
+# logout user
+@users.route('/logout', methods=['GET'])
+def logout():
+	logout_user()
+	return jsonify(
+		data={},
+		message="Successfully logged out.",
+		status=200
+	), 200
+
 # user show route
 @users.route('/<id>', methods=['GET'])
 def show_user(id):
@@ -193,14 +203,5 @@ def edit_user(id):
 
 
 
-# logout user
-@users.route('/logout', methods=['GET'])
-def logout():
-	logout_user()
-	return jsonify(
-		data={},
-		message="Successfully logged out.",
-		status=200
-	), 200
 
 

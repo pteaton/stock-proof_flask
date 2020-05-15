@@ -28,22 +28,6 @@ class Stock(Model):
 		database=DATABASE
 
 
-# class Screen(Model):
-# 	return_on_assets=IntegerField()
-# 	cash_flow_from_operations=IntegerField()
-# 	direction_of_return_on_assets=IntegerField()
-# 	accrual_accounting_check=IntegerField()
-# 	direction_of_leverage=IntegerField()
-# 	direction_of_liquidity=IntegerField()
-# 	issue_stock=IntegerField()
-# 	direction_of_margin=IntegerField()
-# 	direction_of_asset_turnover=IntegerField()
-# 	poster=ForeignKeyField(User, backref='screens')
-# 	date_posted=DateTimeField(default=datetime.datetime.now)
-
-# 	class Meta:
-# 		database=DATABASE
-
 
 
 def initialize():
