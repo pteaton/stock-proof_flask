@@ -28,8 +28,6 @@ class Stock(Model):
 		database=DATABASE
 
 
-
-
 def initialize():
 	DATABASE.connect()
 	DATABASE.create_tables([User, Stock], safe=True)

@@ -1,8 +1,8 @@
 import os
 from flask import Flask, jsonify, g
-from resources.stocks import stocks
-from resources.users import users
 import models
+from resources.users import users
+from resources.stocks import stocks
 from flask_login import LoginManager
 from flask_cors import CORS
 
@@ -31,7 +31,7 @@ def load_user(user_id):
 def unauthorized():
 	return jsonify(
 		data={
-		'error': 'User is not logged in'
+		'Error': 'User is not logged in'
 		},
 		message="You must be logged in to access this resource.",
 		status=401

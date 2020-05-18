@@ -119,39 +119,26 @@ def show_stock(id):
 @login_required
 def delete_stock(id):
 
-	try:
-
 		stock_to_delete = models.Stock.get_by_id(id)
 
-		if stock_to_delete.user.id == current_user.id:
+		if current_user.id == stock_to_delete.user.id:
 			stock_to_delete.delete_instance()
 
-			return jsonify(
+			return jsonify (
 				data={},
-				message=f"Successfully deleted stock with id {id}",
-				status=200
-			), 200
+				message="Successfully deleted stock",
+				status=201
+			), 201
 
 		else:
 
-			return jsonify(
-				data={
-					'error': '403 Forbidden'
-				},
-				message="Username doesn't match stock id. Only OP can delete",
+			return jsonify (
+				data={},
+				message="Only original poster can delete",
 				status=403
 			), 403
 
-	except models.DoesNotExist:
-		return jsonify(
-			data={
-				'error': '404 Not Found'
-			},
-			message="Sorry, but there is no record of a stock with this ID here",
-			status=404
-		), 404
 
-# User - GET api/v1/stocks/mystocks
 @stocks.route('/mystocks', methods=['GET'])
 @login_required
 def my_stocks():
