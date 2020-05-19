@@ -54,7 +54,6 @@ def create_stock():
 		symbol=payload['symbol'],
 		name=payload['name'],
 		user=current_user.id,
-		date_added=datetime.datetime.now()
 	)
 
 	stock_dict = model_to_dict(new_stock)
@@ -122,7 +121,7 @@ def delete_stock(id):
 		stock_to_delete = models.Stock.get_by_id(id)
 
 		if current_user.id == stock_to_delete.user.id:
-			
+
 			stock_to_delete.delete_instance()
 
 			return jsonify (
@@ -146,9 +145,10 @@ def edit_stock(id):
 	payload=request.get_json()
 	stock_to_edit = models.Stock.get_by_id(id)
 
+	print(payload,"This is the payload man")
+	print(stock_to_edit, "stock to edit right here tho")
 	if current_user.id == stock_to_edit.user.id:
-		stock_to_edit=payload['name']
-		stock_to_edit=payload['symbol']
+		stock_to_edit.f_score=payload['f_score']
 
 		stock_to_edit.save()
 
