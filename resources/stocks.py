@@ -104,7 +104,7 @@ def show_stock(id):
 		stock_dict = model_to_dict(stock)
 		stock_dict['user'].pop('password')
 
-		if stock.posted_by.id != current_user.id:
+		if stock.date_added != current_user.id:
 			stock_dict.pop('date_added')
 
 		return jsonify(
@@ -122,6 +122,7 @@ def delete_stock(id):
 		stock_to_delete = models.Stock.get_by_id(id)
 
 		if current_user.id == stock_to_delete.user.id:
+			
 			stock_to_delete.delete_instance()
 
 			return jsonify (
@@ -138,6 +139,35 @@ def delete_stock(id):
 				status=403
 			), 403
 
+# need to add edit/update?
+@stocks.route('/<id>', methods=['PUT'])
+@login_required
+def edit_stock(id):
+	payload=request.get_json()
+	stock_to_edit = models.Stock.get_by_id(id)
+
+	if current_user.id == stock_to_edit.user.id:
+		stock_to_edit=payload['name']
+		stock_to_edit=payload['symbol']
+
+		stock_to_edit.save()
+
+		stock_to_edit_dict = model_to_dict(stock_to_edit)
+		stock_to_edit_dict['user'].pop('password')
+
+		return jsonify (
+			data=stock_to_edit_dict,
+			message="Successfully edited your stock",
+			status=201
+		), 201
+
+	else:
+
+		return jsonify (
+			data={},
+			message="That is not your stock, you cannot edit it",
+			status=403
+		), 403 
 
 @stocks.route('/mystocks', methods=['GET'])
 @login_required
