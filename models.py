@@ -23,9 +23,17 @@ class Stock(Model):
 	name = CharField()	
 	user = ForeignKeyField(User, backref='stocks', on_delete="CASCADE") 
 	date_added = DateTimeField(default=datetime.datetime.now)
+	f_score = IntegerField(default=0)
 
 	class Meta:
 		database=DATABASE
+
+# class Score(Model):
+# 	stock_score = IntegerField()
+# 	user_stock = ForeignKeyField(Stock, backref='scores')
+
+# 	class Meta:
+# 		database=DATABASE
 
 
 def initialize():
